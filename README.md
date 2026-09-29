@@ -1,6 +1,6 @@
 # Le marché de mon métier — les métiers du marketing
 
-### 👉 **[Voir le site : vincentfavarin.github.io/metier](https://vincentfavarin.github.io/metier/)**
+### 👉 **[Voir le site](https://williamfournialuca.github.io/metierwilliam/)**
 
 Le site est mis à jour chaque matin par une Action GitHub : elle interroge
 l'API France Travail, enregistre les offres du jour et publie les chiffres.
@@ -69,7 +69,7 @@ API France Travail  →  scripts/extraire.py  →  data/brut/<mois>/<ROME>.jsonl
                                             →  data/actives/<date>.csv         les offres actives du jour (rome, id)
                                             →  data/serie.csv                  par jour et par métier : total, nouvelles, modifiées
                        scripts/resumer.py   →  data/resume.json                ce que les pages affichent (+ data/geo/, cache des positions)
-                       index.html + 4 pages →  https://vincentfavarin.github.io/metier/
+                       index.html + 4 pages →  https://williamfournialuca.github.io/metierwilliam/
                        .github/workflows/veille.yml : GitHub relance tout ça chaque matin à 7 h
 ```
 
@@ -124,8 +124,11 @@ copy .env.example .env        (puis remplir avec ses identifiants francetravail.
 
 1. Dépôt **public** (GitHub Pages gratuit ne fonctionne que sur un dépôt public).
 2. Settings → Secrets and variables → Actions : `FT_CLIENT_ID` et `FT_CLIENT_SECRET`.
-3. Settings → Pages → Source « Deploy from a branch », branche `main`, dossier `/ (root)`.
-4. Actions → veille → Run workflow : le premier commit du bot arrive dans `data/`.
+3. Actions → veille → Run workflow : l'Action collecte les offres, met à jour
+   `data/resume.json` et publie les cinq pages sur GitHub Pages.
+4. Le site est ensuite redéployé automatiquement à chaque exécution planifiée
+   ou manuelle du workflow. Seules les pages, leurs fichiers partagés et le
+   résumé sont publiés ; les archives brutes restent dans le dépôt.
 
 ## Règles
 
