@@ -281,18 +281,19 @@ def main():
         actives = [(r["rome"], r["id"]) for r in csv.DictReader(f) if r["rome"] in METIERS]
     ids_actifs = {i for _, i in actives}
 
-    # Dernière version connue de chaque offre active (les fichiers sont lus dans l'ordre des mois).
+    # Les archives hors périmètre ne sont pas lues ; les versions restent dans l'ordre des mois.
     versions = {}
-    for f in sorted((RACINE / "data" / "brut").glob("*/*.jsonl")):
+    nb_versions = 0
+    dossier_brut = RACINE / "data" / "brut"
+    fichiers_bruts = sorted(f for code in METIERS for f in dossier_brut.glob(f"*/{code}.jsonl"))
+    for f in fichiers_bruts:
         with f.open(encoding="utf-8") as fh:
             for ligne in fh:
                 if ligne.strip():
                     v = json.loads(ligne)
+                    nb_versions += 1
                     if v["id"] in ids_actifs:
                         versions[v["id"]] = v
-    nb_versions = sum(1 for f in (RACINE / "data" / "brut").glob("*/*.jsonl")
-                      for l in f.open(encoding="utf-8") if l.strip()
-                      and json.loads(l)["rome"] in METIERS)
 
     geo = Geocodeur()
     offres = []

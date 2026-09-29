@@ -91,12 +91,14 @@ def empreinte(offre):
 def versions_connues():
     """Toutes les (id, empreinte) déjà enregistrées dans data/brut, pour ne rien écrire deux fois."""
     vues = set()
-    for f in (RACINE / "data" / "brut").glob("*/*.jsonl"):
-        with f.open(encoding="utf-8") as fh:
-            for ligne in fh:
-                if ligne.strip():
-                    v = json.loads(ligne)
-                    vues.add((v["id"], v["empreinte"]))
+    dossier = RACINE / "data" / "brut"
+    for code in METIERS:
+        for f in dossier.glob(f"*/{code}.jsonl"):
+            with f.open(encoding="utf-8") as fh:
+                for ligne in fh:
+                    if ligne.strip():
+                        v = json.loads(ligne)
+                        vues.add((v["id"], v["empreinte"]))
     return vues
 
 
