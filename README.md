@@ -1,79 +1,47 @@
-# Le marché de mon métier — les métiers du marketing
+# Le marché du social media manager
 
 ### 👉 **[Voir le site](https://williamfournialuca.github.io/metierwilliam/)**
 
 Le site est mis à jour chaque matin par une Action GitHub : elle interroge
-l'API France Travail, enregistre les offres du jour et publie les chiffres.
+l'API France Travail, enregistre les offres du jour et publie les chiffres du
+métier de social media manager.
 
 | | |
 |---|---|
-| [Accueil](https://vincentfavarin.github.io/metier/) | les filtres, les chiffres, la carte de France |
-| [Ce que ça paie](https://vincentfavarin.github.io/metier/salaires.html) | fourchettes par niveau, métier, contrat, territoire |
-| [Ce qu'on vous demande](https://vincentfavarin.github.io/metier/exigences.html) | expérience, diplôme, outils, compétences |
-| [Qui recrute](https://vincentfavarin.github.io/metier/recruteurs.html) | entreprises, secteurs, employeurs ouverts aux débutants |
-| [Le marché bouge](https://vincentfavarin.github.io/metier/mouvement.html) | les extractions successives, la fraîcheur des annonces |
+| [Accueil](https://williamfournialuca.github.io/metierwilliam/) | les chiffres-clés, la carte de France et les filtres |
+| [Ce que ça paie](https://williamfournialuca.github.io/metierwilliam/salaires.html) | salaires par niveau, contrat et territoire |
+| [Ce qu'on vous demande](https://williamfournialuca.github.io/metierwilliam/exigences.html) | expérience, diplôme, outils et compétences |
+| [Qui recrute](https://williamfournialuca.github.io/metierwilliam/recruteurs.html) | entreprises, secteurs et offres récentes |
+| [Le marché bouge](https://williamfournialuca.github.io/metierwilliam/mouvement.html) | évolution du nombre d'offres et fraîcheur des annonces |
 
 Dossier de travail pour la séance « Écouter le marché de votre métier »
-(M2 MOD, IAE Clermont Auvergne). Dépôt de démonstration : il montre ce que
-l'on attend d'un dossier `avenir`, étape par étape, et la chaîne complète
-API → données → Action planifiée → page GitHub Pages.
+(M2 MOD, IAE Clermont Auvergne) : API France Travail → données → Action
+planifiée → site GitHub Pages.
 
-## Le métier, tel que le marché le nomme
+## Le métier suivi
 
-- **Intitulé principal** : chargé / chargée de marketing digital
-- **Variantes rencontrées dans les offres** : chef de projet marketing digital,
-  chef de produit digital, traffic manager, CRM manager, chargé d'acquisition
-- **Code ROME** : **M1718** — Chargé / Chargée de marketing digital
-  (le README disait M1705 « Marketing » ; c'est la première extraction qui a
-  donné le bon code : 14 offres sur 22 étaient en M1718)
+- **Métier** : social media manager
+- **Code ROME suivi** : **E1124**
+- L'extraction, les filtres et les graphiques portent uniquement sur ce code.
 
-## Les questions que je pose à ce marché
+## Les questions étudiées
 
-1. Combien d'offres, et où : Clermont / Puy-de-Dôme, Auvergne-Rhône-Alpes,
-   France, télétravail ?
-2. Quels contrats et quels salaires affichés ?
-3. Quels outils et compétences reviennent le plus — et lesquels la formation
-   ne me donnera pas ?
-4. Quelles entreprises publient le plus cet intitulé ?
-
-## Ce que la première journée a appris (22/09/2026)
-
-Trois requêtes, même jour, même API :
-
-| Requête | Offres | Lecture |
-|---|---|---|
-| `motsCles = "chef de projet marketing digital"` | 22 | trop étroit, et du bruit (PMO, communication) |
-| `codeROME = M1718` | 113 | le référentiel : homogène, c'est la requête de la veille |
-| `motsCles = "marketing digital"` | 424 | large, mais 191 annonces identiques d'un même réseau (M1716) : à dédoublonner avant de compter |
-
-Sur M1718 : 0 offre dans le 63, 11 en Auvergne-Rhône-Alpes, Paris et
-Hauts-de-Seine en tête ; 27 % des offres affichent un salaire, médiane
-31 000 → 35 700 € annuels ; réseaux sociaux, anglais, SEO/SEA, GA4 et
-« IA » reviennent le plus.
-
-## Les métiers suivis
-
-23 codes ROME, choisis pour le M2 MOD parmi les 1 911 du référentiel France
-Travail (la liste vit dans `scripts/extraire.py`, `METIERS`) : le cœur
-marketing (M1718 chargé de marketing digital, M1716, M1705, M1703, M1620,
-M1706, M1430, M1711), le digital (E1113 e-commerce, D1438, E1101 community
-manager, E1124, E1405 SEO, M1886, M1426, M1719 et E1406 influence — 0 offre
-aujourd'hui, on surveille) et, décochés par défaut, la frontière avec la
-communication et le commerce (E1112, E1103, E1107, E1404, D1506, D1415 CRM).
-Au 22/09/2026 : 3 362 offres actives.
+1. Combien d'offres sont publiées, et où se situent-elles ?
+2. Quels contrats et quels salaires sont proposés ?
+3. Quelles expériences, formations, compétences et quels outils sont demandés ?
+4. Quelles entreprises et quels secteurs recrutent ?
 
 ## La chaîne
 
 ```
-API France Travail  →  scripts/extraire.py  →  data/brut/<mois>/<ROME>.jsonl   chaque version d'annonce, une seule fois
-                                            →  data/actives/<date>.csv         les offres actives du jour (rome, id)
-                                            →  data/serie.csv                  par jour et par métier : total, nouvelles, modifiées
-                       scripts/resumer.py   →  data/resume.json                ce que les pages affichent (+ data/geo/, cache des positions)
-                       index.html + 4 pages →  https://williamfournialuca.github.io/metierwilliam/
-                       .github/workflows/veille.yml : GitHub relance tout ça chaque matin à 7 h
+API France Travail → scripts/extraire.py → data/brut/<mois>/E1124.jsonl
+                                        → data/actives/<date>.csv
+                                        → data/serie.csv
+                    scripts/resumer.py → data/resume.json → les cinq pages HTML
+                    .github/workflows/veille.yml → collecte puis publication GitHub Pages
 ```
 
-- `scripts/extraire.py` — une requête `codeROME` par métier (token OAuth,
+- `scripts/extraire.py` — une requête `codeROME=E1124` (token OAuth,
   pagination 150 / 1 150, total lu dans `Content-Range`). Le **brut est
   conservé intégralement** : une offre est écrite la première fois qu'on la
   voit, et de nouveau si son contenu change (empreinte SHA-1 du JSON, hors
@@ -85,7 +53,7 @@ API France Travail  →  scripts/extraire.py  →  data/brut/<mois>/<ROME>.jsonl
   via geo.api.gouv.fr, sinon ville principale du département).
 - Cinq pages HTML statiques, un chantier par page, toutes servies telles quelles.
   Chacune charge `data/resume.json` et recalcule ses graphiques Chart.js dans le
-  navigateur selon la sélection ; net mensuel estimé = brut × 0,78 / 12.
+  navigateur selon les filtres ; net mensuel estimé = brut × 0,78 / 12.
   - `index.html` — les filtres, les chiffres-clés, la carte Leaflet (survol =
     l'offre, clic = l'annonce sur France Travail), les départements, les
     contrats, et les liens vers les quatre autres pages.
@@ -93,15 +61,16 @@ API France Travail  →  scripts/extraire.py  →  data/brut/<mois>/<ROME>.jsonl
     `recruteurs.html` — qui recrute. `mouvement.html` — le marché bouge, et les
     limites de ces chiffres (ancre `#limites`, liée depuis chaque pied de page).
 - `assets/commun.js` et `assets/commun.css` — ce que les cinq pages partagent :
-  chargement des données, panneau de filtres (mémorisé dans `localStorage`,
-  replié ailleurs que sur l'accueil), barre de navigation, utilitaires et
-  fabriques de graphiques. Une page ne contient que son HTML et son petit
-  script `rendre(offres, D)`.
+  chargement des données, panneau de filtres sur le contrat et le niveau de
+  poste, barre de navigation, utilitaires et fabriques de graphiques.
+  Une page ne contient que son HTML et son petit script `rendre(offres, D)`.
+
+Les extractions historiques d'autres codes ROME restent archivées dans le dépôt,
+mais ne sont plus utilisées dans le résumé publié ni affichées sur le site.
 
 ## Volume et limites GitHub
 
-Jour 1 : 13 Mo de brut ; ensuite seulement le flux (nouvelles et modifiées),
-de l'ordre de 2 à 3 Mo par jour, soit ~1 Go par an. GitHub gratuit : dépôt
+Le brut du métier suivi est conservé version par version. GitHub gratuit : dépôt
 1 Go recommandé, fichier ≤ 100 Mo, Pages 1 Go publié et 100 Go/mois de bande
 passante, Actions illimitées sur un dépôt public. Quand le brut dépassera
 quelques centaines de Mo, l'Action archivera chaque mois écoulé (compressé)
@@ -128,7 +97,7 @@ copy .env.example .env        (puis remplir avec ses identifiants francetravail.
    `data/resume.json` et publie les cinq pages sur GitHub Pages.
 4. Le site est ensuite redéployé automatiquement à chaque exécution planifiée
    ou manuelle du workflow. Seules les pages, leurs fichiers partagés et le
-   résumé sont publiés ; les archives brutes restent dans le dépôt.
+   résumé du social media manager sont publiés.
 
 ## Règles
 
