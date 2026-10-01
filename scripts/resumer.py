@@ -15,7 +15,7 @@ C'est ici que la donnée brute est retravaillée :
     lisibles des codes de contrat (clé « contrats » du résumé).
   - exigences : exp_exige, exp_ans (années, 0 = débutant accepté), qualification, formation
     (niveau le plus élevé demandé), secteur, temps (plein/partiel), postes.
-La page recalcule ensuite tous les comptages côté navigateur, selon les métiers cochés.
+La page recalcule ensuite tous les comptages côté navigateur, selon les filtres choisis.
 """
 import csv
 import json
@@ -278,20 +278,22 @@ def main():
         raise SystemExit("Aucune extraction : lancez d'abord scripts/extraire.py")
     jour = jours[-1].stem
     with jours[-1].open(encoding="utf-8") as f:
-        actives = [(r["rome"], r["id"]) for r in csv.DictReader(f)]
+        actives = [(r["rome"], r["id"]) for r in csv.DictReader(f) if r["rome"] in METIERS]
     ids_actifs = {i for _, i in actives}
 
-    # Dernière version connue de chaque offre active (les fichiers sont lus dans l'ordre des mois).
+    # Les archives hors périmètre ne sont pas lues ; les versions restent dans l'ordre des mois.
     versions = {}
-    for f in sorted((RACINE / "data" / "brut").glob("*/*.jsonl")):
+    nb_versions = 0
+    dossier_brut = RACINE / "data" / "brut"
+    fichiers_bruts = sorted(f for code in METIERS for f in dossier_brut.glob(f"*/{code}.jsonl"))
+    for f in fichiers_bruts:
         with f.open(encoding="utf-8") as fh:
             for ligne in fh:
                 if ligne.strip():
                     v = json.loads(ligne)
+                    nb_versions += 1
                     if v["id"] in ids_actifs:
                         versions[v["id"]] = v
-    nb_versions = sum(1 for f in (RACINE / "data" / "brut").glob("*/*.jsonl")
-                      for l in f.open(encoding="utf-8") if l.strip())
 
     geo = Geocodeur()
     offres = []
@@ -340,7 +342,8 @@ def main():
     serie = defaultdict(dict)
     with (RACINE / "data" / "serie.csv").open(encoding="utf-8") as f:
         for r in csv.DictReader(f):
-            serie[r["date"]][r["rome"]] = int(r["total"])
+            if r["rome"] in METIERS:
+                serie[r["date"]][r["rome"]] = int(r["total"])
 
     resume = {
         "date": jour,
