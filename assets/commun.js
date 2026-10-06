@@ -300,7 +300,7 @@ const Commun = {
     if (n === 0) { const d = document.querySelector("details.carte"); if (d) d.open = true; }
 
     // Mémorisation des trois filtres ensemble : ils suivent d'une page à l'autre.
-    try { localStorage.setItem("metiers-filtres", JSON.stringify({ metiers: [...f.metiers], contrats: [...f.contrats], niveaux: [...f.niveaux] })); } catch (e) {}
+    try { localStorage.setItem("metiers-filtres-social-media-manager", JSON.stringify({ metiers: [...f.metiers], contrats: [...f.contrats], niveaux: [...f.niveaux] })); } catch (e) {}
 
     Commun.rendre(offres, D);
   },
@@ -324,7 +324,7 @@ const Commun = {
         `${d.source} · ${d.requete} · extraction du <b>${dateFr(d.date)}</b> · ${d.offres.length} offres actives, ${d.versions_conservees} versions d'annonces conservées`;
 
       let memo = null;
-      try { memo = JSON.parse(localStorage.getItem("metiers-filtres")); } catch (e) {}
+      try { memo = JSON.parse(localStorage.getItem("metiers-filtres-social-media-manager")); } catch (e) {}
       if (!memo) { try { const vieux = JSON.parse(localStorage.getItem("metiers-coches")); if (Array.isArray(vieux)) memo = { metiers: vieux }; } catch (e) {} }
       const memoA = (cle, defaut) => (memo && Array.isArray(memo[cle])) ? memo[cle] : defaut;
 

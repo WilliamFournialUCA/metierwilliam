@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Le marché bouge — les métiers du marketing</title>
+<title>Le marché bouge — social media manager</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <link rel="stylesheet" href="assets/commun.css?v=3">
 </head>
@@ -47,7 +47,7 @@ function rendre(offres, D) {
     { scales: { y: { beginAtZero: true } } });
   document.getElementById("note-serie").textContent = serie.length < 2
     ? "Une seule extraction pour l'instant : la tendance apparaîtra au fil des jours, l'Action GitHub relance la collecte chaque matin."
-    : `${serie.length} extractions, du ${dateFr(serie[0].date)} au ${dateFr(serie[serie.length - 1].date)}. Ce compte suit les métiers cochés, pas les autres filtres.`;
+    : `${serie.length} extractions, du ${dateFr(serie[0].date)} au ${dateFr(serie[serie.length - 1].date)}. Ce compte suit les offres de social media manager, pas les autres filtres.`;
 
   const FRAIS = [["Moins de 7 jours", j => j < 7], ["7 à 30 jours", j => j >= 7 && j < 30], ["1 à 3 mois", j => j >= 30 && j < 90], ["Plus de 3 mois", j => j >= 90]];
   const ages = offres.map(age).filter(j => j != null && j >= 0);

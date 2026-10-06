@@ -10,10 +10,15 @@ on:
 
 permissions:
   contents: write             # le workflow doit pouvoir pousser son commit
+  pages: write                 # publier le site GitHub Pages
+  id-token: write              # autoriser le déploiement Pages
 
 jobs:
   extraire:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
@@ -38,3 +43,22 @@ jobs:
           git add data
           git commit -m "veille : offres du $(date -u +%Y-%m-%d)" || echo "rien de nouveau"
           git push
+
+      - name: Préparer le site à publier
+        run: |
+          mkdir -p _site/assets _site/data
+          cp index.html salaires.html exigences.html recruteurs.html mouvement.html _site/
+          cp assets/commun.css assets/commun.js _site/assets/
+          cp data/resume.json _site/data/
+
+      - name: Configurer GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Charger le site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Publier le site
+        id: deployment
+        uses: actions/deploy-pages@v4
